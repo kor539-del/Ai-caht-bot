@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Performance Coach</title>
+</head>
+<body>
+  <h2>Skill Test Karyawan</h2>
+  <textarea id="answer" placeholder="Tulis jawaban kamu disini..." rows="6" style="width:100%"></textarea>
+  <br/><br/>
+  <button onclick="submitAnswer()">Kirim Jawaban</button>
+
+  <h3>Hasil Penilaian:</h3>
+  <div id="result">Belum ada penilaian</div>
+
+<script>
+async function submitAnswer() {
+  const answer = document.getElementById("answer").value;
+  const res = await fetch("/assess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ answer })
+  });
+  const data = await res.json();
+  document.getElementById("result").innerHTML = `
+    <b>Skor:</b> ${data.score}/100 <br/>
+    <b>Feedback:</b> ${data.feedback}
+  `;
+}
+</script>
+</body>
+  </html>
